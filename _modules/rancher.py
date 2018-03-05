@@ -51,7 +51,9 @@ def stack(stack, upgrade=None, confirm=None):
             cmd = 'rancher up -u --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
     else:
         cmd = 'rancher up --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
-    return __salt__['cmd.run'](cmd)
+    output = __salt__['cmd.run'](cmd)
+    os.remove("%s/docker-compose-tmp.yml" % rancher_path)
+    return output
 
 def upgrade(stack, container, confirm=None):
     '''
@@ -68,4 +70,6 @@ def upgrade(stack, container, confirm=None):
         cmd = 'rancher up -u -r --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
     else:
         cmd = 'rancher up -u --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
-    return __salt__['cmd.run'](cmd)
+    output = __salt__['cmd.run'](cmd)
+    os.remove("%s/docker-compose-tmp.yml" % rancher_path)
+    return output
