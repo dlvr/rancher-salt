@@ -1,0 +1,20 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:alpine
+    stdin_open: true
+    dns:
+    - {{ config.rancher_dns }}
+    tty: true
+    ports:
+    - 9999:80/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  httpd:
+    image: httpd:alpine
+    stdin_open: true
+    tty: true
+    ports:
+    - 7777:80/tcp
+    labels:
+      io.rancher.container.pull_image: always

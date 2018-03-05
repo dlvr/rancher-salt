@@ -1,0 +1,9 @@
+version: '2'
+services:
+  nginx:
+    scale: 1
+    start_on_create: true
+  httpd:
+    scale: 1
+    start_on_create: true
+
