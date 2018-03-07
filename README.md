@@ -43,4 +43,10 @@ To upgrade only the nginx container in the stack `website`
 `sudo salt-call rancher.upgrade website nginx`
 
 To confirm or rollback (separate command):  
-`sudo salt-call rancher.upgrade website nginx confirm/rollback`
+`sudo salt-call rancher.upgrade website nginx confirm/rollback`  
+
+## Pillar variables  
+
+This module allows environment variables to be passed through to the rancher config. The module imports the .sls as `config`. You then call that in your `docker-compose.yml` as `config.entry`. See the sample-website files for an example.  
+
+This module as-is used the pillar file associated with the "environment" we have configured (like, lab, staging, etc.), with this salt-call `open('/srv/pillar/%s.sls') % __salt__['grains.get']['environment'])`, however you can this to whatever pillar file or grain.
