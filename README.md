@@ -1,8 +1,8 @@
 # rancher-salt
 A few assumptions with these states and modules:  
 1. Running rancher server 1.26 (latest)  
-2. rancher-cli is installed on your salt-master and available globally (usr_local_bin)  
-3. Some stuff is hardcoded to how we have our salt and pillar paths setup (e.g. _srv_salt , _srv_pillar). You’ll need to adjust paths for how you have it configured  
+2. rancher-cli is installed on your salt-master and available globally (usr/local/bin)  
+3. Some stuff is hardcoded to how we have our salt and pillar paths setup (e.g. /srv/salt , /srv/pillar). You’ll need to adjust paths for how you have it configured  
 
 ## rancher module  
 Right now you can make three calls with this module: list, new stack, and upgrade services  
