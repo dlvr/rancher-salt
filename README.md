@@ -45,6 +45,11 @@ To upgrade only the nginx container in the stack `website`
 To confirm or rollback (separate command):  
 `sudo salt-call rancher.upgrade website nginx confirm/rollback`  
 
+NOTE: the upgrade tag will default to `:latest` unless specified when calling the upgrade. Like so:  
+`sudo salt-call rancher upgrade website nginx 1.12`  
+This can be helpful when trying to control versioning in critical environments without needing to change the docker-compose.yml everytime.  
+Just change the tag to the variable `{{ config.tag }}` for it to be mapped.
+
 ## Pillar variables  
 
 This module allows environment variables to be passed through to the rancher config. The module imports the .sls as `config`. You then call that in your `docker-compose.yml` as `config.entry`. See the sample-website files for an example.  
