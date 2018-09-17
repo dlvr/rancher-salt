@@ -1,6 +1,6 @@
 # rancher-salt
 A few assumptions with these states and modules:  
-1. Running rancher server 1.26 (latest)  
+1. Running rancher server 1.6.x  
 2. rancher-cli is installed on your salt-master and available globally (usr/local/bin)  
 3. Some stuff is hardcoded to how we have our salt and pillar paths setup (e.g. /srv/salt , /srv/pillar). You’ll need to adjust paths for how you have it configured  
 
@@ -46,7 +46,7 @@ To confirm or rollback (separate command):
 `sudo salt-call rancher.upgrade website nginx confirm/rollback`  
 
 NOTE: the upgrade tag will default to `:latest` unless specified when calling the upgrade. Like so:  
-`sudo salt-call rancher upgrade website nginx 1.12`  
+`sudo salt-call rancher.upgrade website nginx 1.12`  
 This can be helpful when trying to control versioning in critical environments without needing to change the docker-compose.yml everytime.  
 Just change the tag to the variable `{{ config.tag }}` for it to be mapped.
 
