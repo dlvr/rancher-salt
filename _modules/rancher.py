@@ -40,14 +40,6 @@ def containers():
     '''
     return __salt__['cmd.run']('rancher ps')
 
-def connect(container_id, shell="bash"):
-    '''
-    Connect to a running container, use container ID or full container name
-    Shell defaults to bash, specify otherwise
-    e.g. salt-call rancher.exec <container_id> sh
-    '''
-    return __salt__['cmd.run']('rancher exec -it {0} {1}'.format(container_id, shell))
-
 def stack(stack, upgrade=None, confirm=None):
     '''
     Provision a new stack in rancher:
