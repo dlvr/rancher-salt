@@ -23,9 +23,16 @@ def expand(rancher_path, version="latest"):
     config_data["tag"] = version
 
     template = env.get_template('docker-compose.yml')
+    template2 = env.get_template('rancher-compose.yml')
+
     output = template.render(config=config_data)
+    output2 = template2.render(config=config_data)
+
     with open("docker-compose-tmp.yml", "w") as f:
         f.write(output)
+
+    with open("rancher-compose-tmp.yml", "w") as g:
+        g.write(output2)
 
 def containers():
     '''
@@ -47,15 +54,16 @@ def stack(stack, upgrade=None, confirm=None):
 
     if upgrade == "upgrade":
         if confirm == "confirm":
-            cmd = 'rancher up -u -c --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
+            cmd = 'rancher up -u -c --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
         elif confirm == "rollback":
-            cmd = 'rancher up -u -r --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
+            cmd = 'rancher up -u -r --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
         else:
-            cmd = 'rancher up -u --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
+            cmd = 'rancher up -u --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
     else:
-        cmd = 'rancher up --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
+        cmd = 'rancher up --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d'.format(rancher_path)
     output = __salt__['cmd.run'](cmd)
     os.remove("%s/docker-compose-tmp.yml" % rancher_path)
+    os.remove("%s/rancher-compose-tmp.yml" % rancher_path)
     return output
 
 def upgrade(stack, container, version="latest", confirm=None):
@@ -69,11 +77,12 @@ def upgrade(stack, container, version="latest", confirm=None):
     expand(rancher_path, version)
 
     if confirm == "confirm":
-        cmd = 'rancher up -u -c --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
+        cmd = 'rancher up -u -c --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
     elif confirm == "rollback":
-        cmd = 'rancher up -u -r --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
+        cmd = 'rancher up -u -r --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
     else:
-        cmd = 'rancher up -u --rancher-file {0}/rancher-compose.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
+        cmd = 'rancher up -u --rancher-file {0}/rancher-compose-tmp.yml -f {0}/docker-compose-tmp.yml -d {1}'.format(rancher_path, container)
     output = __salt__['cmd.run'](cmd)
     os.remove("%s/docker-compose-tmp.yml" % rancher_path)
+    os.remove("%s/rancher-compose-tmp.yml" % rancher_path)
     return output
